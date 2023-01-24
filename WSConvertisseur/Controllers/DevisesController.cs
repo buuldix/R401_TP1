@@ -11,9 +11,10 @@ namespace WSConvertisseur.Controllers
     public class DevisesController : ControllerBase
     {
 
-        List<Devise> devises = new() {new(1,"Dollar",1.08),new(2, "Franc Suisse",1.07),new(3,"Yen",120) };
+        List<Devise> devises;
         public DevisesController()
         {
+            devises = new() {new(1, "Dollar", 1.08), new(2, "Franc Suisse", 1.07), new(3, "Yen", 120) };
         }
         // GET: api/<DevisesController>
         [HttpGet]
@@ -23,10 +24,11 @@ namespace WSConvertisseur.Controllers
         }
 
         // GET api/<DevisesController>/5
-        [HttpGet("{id}")]
-        public string GetAll(int id)
+        [HttpGet("{id}", Name = "GetDevise")]
+        public ActionResult<Devise> GetById(int id)
         {
-            return "value";
+            Devise devise = devises.FirstOrDefault(x => x.Id == id);
+            return devise == null ? NotFound():devise;
         }
 
         // POST api/<DevisesController>
