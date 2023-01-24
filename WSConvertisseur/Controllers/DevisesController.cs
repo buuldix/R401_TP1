@@ -11,7 +11,7 @@ namespace WSConvertisseur.Controllers
     public class DevisesController : ControllerBase
     {
 
-        List<Devise> devises;
+        public List<Devise> devises;
         /// <summary>
         /// Constructeur vide du controller DevisesController.
         /// </summary>
@@ -37,9 +37,11 @@ namespace WSConvertisseur.Controllers
         /// <response code="404">Retourne Not found si l'id passé ne correspond à aucune devise.</response>
         // GET api/<DevisesController>/5
         [HttpGet("{id}", Name = "GetDevise")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public ActionResult<Devise> GetById(int id)
         {
-            Devise devise = devises.FirstOrDefault(x => x.Id == id);
+            Devise? devise = devises.FirstOrDefault(x => x.Id == id);
             return devise == null ? NotFound():devise;
         }
         /// <summary>
@@ -67,6 +69,9 @@ namespace WSConvertisseur.Controllers
         /// <response code="400">retourne une erreur bad request si la devise en paramètre n'est pas bien formattée ou que la devise en paramètre est différent de l'id passé.</response>
         /// <response code="404">retroune not found si l'id ne correspond à aucune devise dans la liste.</response>
         // PUT api/<DevisesController>/5
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         [HttpPut("{id}")]
         public ActionResult Put(int id, [FromBody] Devise devise)
         {
@@ -95,7 +100,9 @@ namespace WSConvertisseur.Controllers
         /// <response code="404">retourne not found si l'id en paramètre ne correspond à aucune devise.</response>
         /// <returns>retourne la devise correspondant à l'id en paramètre.</returns>
         // DELETE api/<DevisesController>/5
+
         [HttpDelete("{id}")]
+        [ProducesResponseType(404)]
         public ActionResult<Devise> Delete(int id)
         {
             Devise devise = devises.FirstOrDefault(x => x.Id == id);
